@@ -1,0 +1,59 @@
+html, body {
+	margin: 0;
+	padding: 0;
+	font-family: 'Microsoft Yahei';
+	width: 100%;
+	height: 100%;
+}
+
+body {
+	background-color: rgb(0, 110, 153);
+	overflow: hidden;
+	background: radial-gradient(circle farthest-corner, #009dbd, #004d68);
+	background: -webkit-radial-gradient(center, circle farthest-side, #009dbd, #004d68);
+	cursor: default;
+}
+
+.face {
+	font-weight: normal;
+	font-size: 5rem;
+}
+
+.product-info {
+	width: 30em;
+	margin: 0 auto;
+	font-weight: bold;
+	color: white;
+	text-align: center;
+	margin-top: 15vh;
+	text-shadow: 0px 2px 5px #333;
+}
+
+.product-name {
+	display: inline-block;
+	font-size: 2.5em;
+	letter-spacing: .1em;
+}
+
+.usage {
+	margin-top: 1em;
+}
+
+.version-info {
+	position: fixed;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	text-align: center;
+}
+
+.version-info {
+	background-color: rgba(0, 0, 0, 0.45);
+	color: white;
+	padding: .5em;
+}
+
+em {
+	font-style: normal;
+	margin: 0 .2em;
+}

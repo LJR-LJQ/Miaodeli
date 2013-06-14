@@ -1,0 +1,5 @@
+#define IDI_WINDOWAPP			107
+#define IDI_SMALL				108
+
+IDI_WINDOWAPP       ICON         "Miaodeli.ico"
+IDI_SMALL               ICON         "Miaodeli.ico"

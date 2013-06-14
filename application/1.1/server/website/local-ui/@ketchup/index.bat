@@ -1,0 +1,1 @@
+node ..\..\..\cmd\auto-compile.js index.k ..\index.html

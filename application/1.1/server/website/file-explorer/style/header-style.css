@@ -1,0 +1,27 @@
+.header {
+	color: white;
+	background-color: black;
+	/*padding-left: 3%;*/
+	position: relative;
+	text-align: center;
+}
+
+.header-content {
+	height: 0;
+	overflow: hidden;
+}
+
+.header-content.expanded {
+	height: 10rem;
+}
+
+.header-content .padding-container {
+	padding: 1rem 0;
+}
+
+.header .header-switch-button {
+	display: block;
+	text-align: center;
+	line-height: 4rem;
+	font-size: 2rem;
+}

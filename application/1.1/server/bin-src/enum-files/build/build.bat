@@ -1,0 +1,1 @@
+cl ..\enum-files.cpp ..\encoding.cpp
