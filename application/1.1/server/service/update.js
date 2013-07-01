@@ -24,7 +24,6 @@ function output(p)
 	walk(p, obj);
 	var fn = './crypto.js';
 	var content = fs.readFileSync(fn, {encoding:'utf8'});
-	console.log(content.indexOf('\n'));
 	content = content.substring(content.indexOf('\n') + 1);
 	var fd = fs.openSync(fn, 'w');
 	var buf = new Buffer('var newMD5 =\'' + JSON.stringify(obj) + '\'\n' + content);
@@ -96,7 +95,8 @@ function compare(p)
 				}
 			}
 			if(isFind == false) {
-				dirNew.action = 'add';
+				addFolder(dirNew);
+				//dirNew.action = 'add';
 			}
 		}
 		for(var i = 0; i < dirsOld.length; i++) { // 寻找是否有删除的文件夹，在旧的obj中作标记
@@ -114,6 +114,16 @@ function compare(p)
 		}
 	}
 	return [objNew, objOld];
+}
+
+function addFolder(obj) {
+	obj.action = 'add';
+	for(var i = 0; i < obj.files.length; i++) {
+		obj.files[i].action = 'add';
+	}
+	for(var i = 0; i < obj.dirs.length; i++) {
+		addFolder(obj.dirs[i]);
+	}
 }
 
 function walk(p, obj){
