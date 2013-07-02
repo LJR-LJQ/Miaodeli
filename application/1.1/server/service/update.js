@@ -1,6 +1,7 @@
 var newMD5 ='{"files":[{"md5":"da39a3ee5e6b4b0d3255bfef95601890afd80709","name":"./dirName/test.txt","action":""},{"md5":"356a192b7913b04c54574d18c28d46e6395428ab","name":"./dirName/test2.txt","action":""}],"dirs":[{"files":[{"md5":"da39a3ee5e6b4b0d3255bfef95601890afd80709","name":"./dirName/test3/test.txt","action":""}],"dirs":[],"name":"./dirName/test3","action":""}],"name":"./dirName"}'
 // [导出]
 exports.output = output;
+exports.update = update;
 
 // [模块]
 var crypto = require('crypto');
@@ -8,6 +9,23 @@ var fs = require('fs');
 
 
 // [函数]
+/*
+	名称：输出函数
+	参数：
+	1、oldName：旧的目录名
+	2、newName: 新的目录名
+	返回值：无
+	注：没有处理错误
+
+	函数行为说明：
+	自动更新。
+*/
+function update(oldName, newName) {
+	var objs = compare(oldName);
+	copyFolder(objs[0], newName);
+	//download(objs[1]); //该函数还没实现
+}
+
 /*
 	名称：输出函数
 	参数：
@@ -113,9 +131,19 @@ function compare(p)
 			}
 		}
 	}
-	return [objNew, objOld];
+	return [objOld, objNew];
 }
 
+/*
+	名称：添加add标记函数
+	参数：
+	1、obj：json对象
+	返回值：无
+	注：没有处理错误
+
+	函数行为说明：
+	对文件夹下的所有文件以及目录标记为add。
+*/
 function addFolder(obj) {
 	obj.action = 'add';
 	for(var i = 0; i < obj.files.length; i++) {
@@ -123,6 +151,36 @@ function addFolder(obj) {
 	}
 	for(var i = 0; i < obj.dirs.length; i++) {
 		addFolder(obj.dirs[i]);
+	}
+}
+
+/*
+	名称：复制文件夹函数
+	参数：
+	1、obj：json对象
+	2、newName: 新的文件夹名称
+	返回值：无
+	注：没有处理错误
+
+	函数行为说明：
+	根据obj对象中del标记，将del标记以外的文件与目录复制到新文件夹下。
+*/
+function copyFolder(obj, newName) {
+	if(obj.action == 'del') return;
+	var newDir = newName + obj.name.substring(newName.length + 1);
+	if(!fs.existsSync(newDir)) fs.mkdirSync(newDir);
+	for(var i = 0; i < obj.files.length; i++) {
+		var file = obj.files[i];
+		if(file.action != 'del') {
+			var content = fs.readFileSync(file.name, {encoding:'utf8'});
+			var newFile = newName + file.name.substring(newName.length + 1);
+			var fd = fs.openSync(newFile, 'w');
+			var buf = new Buffer(content);
+			fs.writeSync(fd, buf, 0, buf.length, 0);
+		}
+	}
+	for(var i = 0; i < obj.dirs.length; i++) {
+		copyFolder(obj.dirs[i], newName);
 	}
 }
 
@@ -145,6 +203,6 @@ function walk(p, obj){
 }
 
 // [测试]
-//var p = './dirName';
+var p = './dirName';
 //output(p);
-//compare(p);
+compare(p);
